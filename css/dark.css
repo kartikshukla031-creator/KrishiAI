@@ -1,0 +1,24 @@
+body.dark{
+  --bg:#0d1510;
+  --card:#16231a;
+  --text:#eef7f0;
+  --muted:#a8b7ac;
+  --border:#223327;
+  --shadow:0 10px 35px rgba(0,0,0,.35);
+}
+
+body.dark .topbar,
+body.dark .main-header{
+  background:rgba(22,35,26,.9);
+}
+
+body.dark .theme-btn,
+body.dark .sidebar-toggle{
+  background:#213226;
+  color:#fff;
+}
+
+body.dark .weather-card{
+  background:linear-gradient(135deg,#1c2d22,#16231a);
+  color:#fff;
+}
