@@ -35,7 +35,7 @@ export default async function handler(req, res) {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: "qwen/qwen2.5-vl-3b-instruct:free",
+        model: "google/gemma-3-4b-it:free",
         messages: [
           {
             role: "user",
