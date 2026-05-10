@@ -12,43 +12,46 @@ export default async function handler(req, res) {
   try {
     const { prompt, image } = req.body;
 
-    const parts = [
-      { text: prompt }
+    const content = [
+      {
+        type: "text",
+        text: prompt
+      }
     ];
 
     if (image?.data) {
-      parts.push({
-        inlineData: {
-          mimeType: image.mimeType,
-          data: image.data
+      content.push({
+        type: "image_url",
+        image_url: {
+          url: `data:${image.mimeType};base64,${image.data}`
         }
       });
     }
 
-    const r = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_KEY}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          contents: [
-            {
-              parts
-            }
-          ]
-        })
-      }
-    );
+    const r = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${process.env.OPENROUTER_KEY}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        model: "meta-llama/llama-3.2-11b-vision-instruct:free",
+        messages: [
+          {
+            role: "user",
+            content
+          }
+        ]
+      })
+    });
 
     const data = await r.json();
 
-    console.log("GEMINI RAW =", JSON.stringify(data));
+    console.log("OPENROUTER RAW =", JSON.stringify(data));
 
     const answer =
-      data?.candidates?.[0]?.content?.parts?.[0]?.text ||
-      data?.promptFeedback?.blockReason ||
+      data?.choices?.[0]?.message?.content ||
+      data?.error?.message ||
       "Analysis unavailable";
 
     return res.status(200).json({
