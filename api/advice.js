@@ -1,68 +1,52 @@
 export default async function handler(req, res) {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "POST");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-
   if (req.method !== "POST") {
-    return res.status(405).json({
-      error: "Method not allowed"
-    });
+    return res.status(405).json({ error: "Method not allowed" });
   }
 
   try {
-    const { prompt, image } = req.body;
+    const { image } = req.body;
 
-    const content = [
+    const response = await fetch(
+      "https://api.clarifai.com/v2/models/general-image-recognition/outputs",
       {
-        type: "text",
-        text: prompt
+        method: "POST",
+        headers: {
+          Authorization: `Key ${process.env.CLARIFAI_PAT}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          inputs: [
+            {
+              data: {
+                image: {
+                  base64: image.replace(
+                    /^data:image\/[a-z]+;base64,/,
+                    ""
+                  ),
+                },
+              },
+            },
+          ],
+        }),
       }
-    ];
+    );
 
-    if (image?.data) {
-      content.push({
-        type: "image_url",
-        image_url: {
-          url: `data:${image.mimeType};base64,${image.data}`
-        }
-      });
-    }
+    const data = await response.json();
 
-    const r = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${process.env.OPENROUTER_KEY}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        model: "google/gemma-3-4b-it:free",
-        messages: [
-          {
-            role: "user",
-            content
-          }
-        ]
-      })
-    });
+    const concepts =
+      data.outputs[0].data.concepts
+        .slice(0, 5)
+        .map((c) => c.name)
+        .join(", ");
 
-    const data = await r.json();
-
-    console.log("OPENROUTER RAW =", JSON.stringify(data));
-
-    const answer =
-      data?.choices?.[0]?.message?.content ||
-      data?.error?.message ||
-      "Analysis unavailable";
-
-    return res.status(200).json({
+    res.status(200).json({
       success: true,
-      answer
+      answer: "Detected: " + concepts,
     });
-
-  } catch (e) {
-    return res.status(500).json({
+  } catch (err) {
+    res.status(500).json({
       success: false,
-      error: e.message
+      error: err.message,
     });
   }
 }
