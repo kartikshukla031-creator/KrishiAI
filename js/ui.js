@@ -1,35 +1,43 @@
-document.addEventListener("DOMContentLoaded", ()=>{
+// CLOCK
 
-  const menuBtn = document.getElementById("menuBtn");
-  const sidebar = document.getElementById("sidebar");
-  const sidebarToggle = document.getElementById("sidebarToggle");
-  const themeToggle = document.getElementById("themeToggle");
+setInterval(()=>{
 
-  if(menuBtn){
-    menuBtn.addEventListener("click", ()=>{
-      const nav = document.getElementById("navLinks");
-      if(nav){
-        nav.style.display =
-          nav.style.display === "flex" ? "none" : "flex";
-      }
-    });
-  }
+  const now = new Date();
 
-  if(sidebarToggle && sidebar){
-    sidebarToggle.addEventListener("click", ()=>{
-      sidebar.classList.toggle("show");
-    });
-  }
+  document.getElementById("clock")
+  .innerHTML =
+  now.toLocaleTimeString();
 
-  if(themeToggle){
-    themeToggle.addEventListener("click", ()=>{
-      document.body.classList.toggle("dark");
+},1000);
 
-      themeToggle.textContent =
-        document.body.classList.contains("dark")
-          ? "☀️"
-          : "🌙";
-    });
-  }
 
-});
+
+// DARK MODE
+
+function toggleDarkMode(){
+
+  document.body.classList.toggle("dark");
+
+}
+
+
+
+// FARMING TIPS
+
+const tips = [
+
+  "Use organic fertilizers",
+
+  "Avoid overwatering",
+
+  "Check soil moisture daily",
+
+  "Morning watering is best"
+
+];
+
+const randomTip =
+tips[Math.floor(Math.random()*tips.length)];
+
+document.getElementById("tipBox")
+.innerHTML = randomTip;

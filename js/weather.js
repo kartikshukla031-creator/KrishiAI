@@ -1,25 +1,55 @@
-document.addEventListener("DOMContentLoaded", getWeather);
+async function loadWeather(){
 
-async function getWeather() {
-  const weatherBox =
-    document.getElementById("weatherBox");
+  try{
 
-  if (!weatherBox) return;
-
-  try {
-    const { LAT, LON } = APP_CONFIG.WEATHER;
-
-    const res = await fetch(
-      `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&current=temperature_2m,relative_humidity_2m,wind_speed_10m`
+    const response = await fetch(
+      "https://api.open-meteo.com/v1/forecast?latitude=23.2599&longitude=77.4126&current_weather=true"
     );
 
-    const data = await res.json();
-    const current = data.current;
+    const data = await response.json();
 
-    weatherBox.innerHTML =
-      `${current.temperature_2m}°C • Humidity ${current.relative_humidity_2m}%`;
-  } catch (err) {
-    weatherBox.textContent =
-      "Weather unavailable";
+    const weather =
+    data.current_weather;
+
+    document.getElementById("weatherBox")
+    .innerHTML = `
+
+      <div class="weather-grid">
+
+        <div class="weather-card">
+          <h3>🌡 Temperature</h3>
+          <p>${weather.temperature}°C</p>
+        </div>
+
+        <div class="weather-card">
+          <h3>💨 Wind Speed</h3>
+          <p>${weather.windspeed} km/h</p>
+        </div>
+
+        <div class="weather-card">
+          <h3>🧭 Wind Direction</h3>
+          <p>${weather.winddirection}°</p>
+        </div>
+
+        <div class="weather-card">
+          <h3>⏰ Updated</h3>
+          <p>${weather.time}</p>
+        </div>
+
+      </div>
+
+    `;
+
   }
+
+  catch(err){
+
+    document.getElementById("weatherBox")
+    .innerHTML =
+    "Weather unavailable";
+
+  }
+
 }
+
+loadWeather();

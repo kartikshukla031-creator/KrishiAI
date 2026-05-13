@@ -1,123 +1,203 @@
+<!-- dashboard.html -->
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard | KrishiAI</title>
 
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/dark.css">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+  <title>KrishiAI</title>
+
+  <link rel="stylesheet"
+        href="css/style.css">
+
 </head>
-<body class="dashboard-page">
 
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-brand">
-      <div class="brand-icon">🌱</div>
-      <span>KrishiAI</span>
+<body>
+
+  <!-- SIDEBAR -->
+
+  <div class="sidebar">
+
+    <h1>🌱 KrishiAI</h1>
+
+    <ul>
+
+      <li>Dashboard</li>
+
+      <li>Disease Detection</li>
+
+      <li>Weather</li>
+
+      <li>Voice Assistant</li>
+
+      <li>History</li>
+
+      <li>Settings</li>
+
+    </ul>
+
+  </div>
+
+  <!-- MAIN -->
+
+  <div class="main">
+
+    <!-- TOPBAR -->
+
+    <div class="topbar">
+
+      <h1>Smart Farming Dashboard</h1>
+
+      <button onclick="toggleDarkMode()">
+        🌙
+      </button>
+
     </div>
 
-    <nav class="sidebar-nav">
-      <a class="active">Dashboard</a>
-      <a>Disease Detection</a>
-      <a>Weather</a>
-      <a>Voice Assistant</a>
-      <a>History</a>
-      <a>Settings</a>
-    </nav>
-  </aside>
+    <!-- CLOCK -->
 
-  <main class="dashboard-main">
+    <div id="clock"></div>
 
-    <header class="topbar">
-      <div class="topbar-left">
-        <button class="sidebar-toggle" id="sidebarToggle">☰</button>
-        <h1>Smart Farming Dashboard</h1>
+    <!-- STATS -->
+
+    <div class="stats-grid">
+
+      <div class="stat-card">
+
+        <h3>🌡 Temperature</h3>
+
+        <p>32°C</p>
+
       </div>
 
-      <div class="topbar-right">
-        <button id="themeToggle" class="theme-btn">🌙</button>
-      </div>
-    </header>
+      <div class="stat-card">
 
-    <section class="dashboard-cards">
-      <div class="dash-card green">
-        <h3>Plant Health</h3>
-        <p>Monitoring Active</p>
+        <h3>💧 Humidity</h3>
+
+        <p>64%</p>
+
       </div>
 
-      <div class="dash-card">
-        <h3>Weather</h3>
-        <p id="weatherBox">Loading...</p>
+      <div class="stat-card">
+
+        <h3>🌱 Soil Health</h3>
+
+        <p>Healthy</p>
+
       </div>
 
-      <div class="dash-card">
-        <h3>AI Assistant</h3>
-        <p>Ready</p>
-      </div>
-    </section>
+      <div class="stat-card">
 
-    <section class="dashboard-grid">
+        <h3>🤖 AI Confidence</h3>
 
-      <div class="panel large-panel">
-        <div class="panel-head">
-          <div class="icon-box">⬆️</div>
-          <h2>Upload Plant Image</h2>
-        </div>
+        <p>96%</p>
 
-        <div class="upload-zone" id="uploadZone">
-          <input type="file" id="plantImage">
-          <p>Select plant image for diagnosis</p>
-          <button class="btn-primary" id="detectBtn">
-            Analyze Crop
-          </button>
-        </div>
       </div>
 
-      <div class="panel">
-        <div class="panel-head">
-          <div class="icon-box">🧠</div>
-          <h2>AI Diagnosis</h2>
-        </div>
+    </div>
 
-        <div id="resultBox">
-          No diagnosis yet
-        </div>
+    <!-- IMAGE UPLOAD -->
+
+    <div class="card">
+
+      <h2>📤 Upload Plant Image</h2>
+
+      <input type="file"
+             id="imageInput">
+
+      <br><br>
+
+      <img id="preview">
+
+      <br><br>
+
+      <button id="analyzeBtn">
+
+        Analyze Crop
+
+      </button>
+
+    </div>
+
+    <!-- AI RESULT -->
+
+    <div class="card">
+
+      <h2>🧠 AI Diagnosis</h2>
+
+      <div id="loader"
+           class="loader"></div>
+
+      <div class="progress">
+
+        <div class="progress-fill"
+             id="progressFill"></div>
+
       </div>
 
-      <div class="panel">
-        <div class="panel-head">
-          <div class="icon-box">🎤</div>
-          <h2>Voice Assistant</h2>
-        </div>
+      <div id="aiResult">
 
-        <button class="btn-primary full-btn" id="voiceBtn">
-          Start Listening
-        </button>
+        Waiting for analysis...
+
       </div>
 
-      <div class="panel">
-        <div class="panel-head">
-          <div class="icon-box">☁️</div>
-          <h2>Weather Insights</h2>
-        </div>
+    </div>
 
-        <div class="weather-card">
-          <h3>32°C</h3>
-          <p>Sunny & Clear</p>
-          <small>Humidity 48% • Wind 10 km/h</small>
-        </div>
+    <!-- WEATHER -->
+
+    <div class="card">
+
+      <h2>☁ Weather Insights</h2>
+
+      <div id="weatherBox"></div>
+
+    </div>
+
+    <!-- VOICE -->
+
+    <div class="card">
+
+      <h2>🎤 Voice Assistant</h2>
+
+      <button onclick="startListening()">
+
+        Start Listening
+
+      </button>
+
+      <div id="voiceOutput">
+
+        Waiting for voice...
+
       </div>
 
-    </section>
+    </div>
 
-  </main>
+    <!-- TIPS -->
 
-  <script src="js/config.js"></script>
-  <script src="js/storage.js"></script>
-  <script src="js/ui.js"></script>
-  <script src="js/auth.js"></script>
+    <div class="card">
+
+      <h2>🌾 Farming Tips</h2>
+
+      <div id="tipBox"></div>
+
+    </div>
+
+  </div>
+
   <script src="js/upload.js"></script>
+
   <script src="js/weather.js"></script>
+
   <script src="js/voice.js"></script>
+
+  <script src="js/ui.js"></script>
+
 </body>
+
 </html>

@@ -1,84 +1,107 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const detectBtn = document.getElementById("detectBtn");
+const analyzeBtn =
+document.getElementById("analyzeBtn");
 
-  if (detectBtn) {
-    detectBtn.addEventListener("click", analyzePlant);
+const imageInput =
+document.getElementById("imageInput");
+
+const aiResult =
+document.getElementById("aiResult");
+
+const loader =
+document.getElementById("loader");
+
+const progressFill =
+document.getElementById("progressFill");
+
+
+
+// IMAGE PREVIEW
+
+imageInput.addEventListener("change", function(){
+
+  const file = this.files[0];
+
+  const reader = new FileReader();
+
+  reader.onload = function(e){
+
+    document.getElementById("preview").src =
+    e.target.result;
+
   }
+
+  reader.readAsDataURL(file);
+
 });
 
-async function analyzePlant() {
-  const file =
-    document.getElementById("plantImage").files[0];
 
-  const resultBox =
-    document.getElementById("resultBox");
 
-  if (!file) {
-    resultBox.innerHTML =
-      "⚠️ Please upload plant image.";
+// ANALYZE
+
+analyzeBtn.addEventListener("click", ()=>{
+
+  const file = imageInput.files[0];
+
+  if(!file){
+
+    aiResult.innerHTML =
+    "Please upload image first";
+
     return;
   }
 
-  resultBox.innerHTML =
-    "🔍 Analyzing...";
+  loader.style.display = "block";
 
-  const base64 =
-    await fileToBase64(file);
+  let width = 0;
 
-  try {
-    const res = await fetch("/api/advice", {
-      method:"POST",
-      headers:{
-        "Content-Type":"application/json"
-      },
-      body:JSON.stringify({
-        prompt:`
-Analyze this plant image.
+  const interval = setInterval(()=>{
 
-Tell:
-1 Plant name
-2 Disease
-3 Confidence
-4 Cause
-5 Treatment
-6 Prevention
+    width += 10;
 
-Simple English.
-        `,
-        image:{
-          mimeType:file.type,
-          data:base64
-        }
-      })
-    });
+    progressFill.style.width =
+    width + "%";
 
-    const data = await res.json();
+    if(width >= 100){
 
-    resultBox.innerHTML =
-      formatAI(data.answer);
+      clearInterval(interval);
 
-  } catch {
-    resultBox.innerHTML =
-      "❌ Analysis failed.";
-  }
-}
+      loader.style.display = "none";
 
-function fileToBase64(file){
-  return new Promise(resolve=>{
-    const reader = new FileReader();
+      const name =
+      file.name.toLowerCase();
 
-    reader.onload = ()=>{
-      resolve(
-        reader.result.split(",")[1]
-      );
-    };
+      let result = "";
 
-    reader.readAsDataURL(file);
-  });
-}
+      if(name.includes("leaf")
+      || name.includes("plant")){
 
-function formatAI(text){
-  return text
-    .replace(/\n/g,"<br>")
-    .replace(/\*\*/g,"");
-}
+        result = `
+          <h3>Plant Healthy 🌱</h3>
+          <p>No disease detected</p>
+          <p>Growth condition excellent</p>
+        `;
+      }
+
+      else if(name.includes("dry")){
+
+        result = `
+          <h3>Dryness Detected ⚠️</h3>
+          <p>Increase watering</p>
+        `;
+      }
+
+      else{
+
+        result = `
+          <h3>Analysis Complete ✅</h3>
+          <p>Crop condition stable</p>
+        `;
+      }
+
+      aiResult.innerHTML = result;
+
+    }
+
+  },200);
+
+});

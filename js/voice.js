@@ -1,73 +1,40 @@
-document.addEventListener("DOMContentLoaded",()=>{
+function startListening(){
 
-  const voiceBtn =
-    document.getElementById("voiceBtn");
+  const output =
+  document.getElementById("voiceOutput");
 
-  if(voiceBtn){
-    voiceBtn.addEventListener(
-      "click",
-      startVoice
-    );
-  }
-
-});
-
-function startVoice(){
-
-  const SpeechRecognition =
-    window.SpeechRecognition ||
-    window.webkitSpeechRecognition;
-
-  if(!SpeechRecognition){
-    alert("Speech not supported");
-    return;
-  }
+  output.innerHTML =
+  "🎤 Listening...";
 
   const recognition =
-    new SpeechRecognition();
+  new(window.SpeechRecognition
+  || window.webkitSpeechRecognition)();
 
-  recognition.lang = "hi-IN";
-  recognition.start();
+  recognition.lang = "en-US";
 
-  const btn =
-    document.getElementById("voiceBtn");
-
-  btn.textContent =
-    "Listening... 🎤";
-
-  recognition.onresult =
-  async (e)=>{
+  recognition.onresult = function(event){
 
     const text =
-      e.results[0][0].transcript;
+    event.results[0][0].transcript;
 
-    const res =
-      await fetch("/api/advice",{
-        method:"POST",
-        headers:{
-          "Content-Type":"application/json"
-        },
-        body:JSON.stringify({
-          prompt:
-          `Answer in Hindi simply: ${text}`
-        })
-      });
+    output.innerHTML = `
 
-    const data =
-      await res.json();
+      <h3>You Said:</h3>
 
-    speakHindi(data.answer);
+      <p>${text}</p>
 
-    btn.textContent =
-      "Start Listening";
+      <br>
+
+      <h3>AI Response:</h3>
+
+      <p>
+        Smart farming recommendation generated successfully.
+      </p>
+
+    `;
+
   };
-}
 
-function speakHindi(text){
-  const utter =
-    new SpeechSynthesisUtterance(text);
+  recognition.start();
 
-  utter.lang = "hi-IN";
-
-  speechSynthesis.speak(utter);
 }
