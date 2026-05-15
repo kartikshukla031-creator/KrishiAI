@@ -1,20 +1,37 @@
-document.addEventListener("DOMContentLoaded", ()=>{
+function loginUser(){
 
-  const loginForm = document.getElementById("loginForm");
+  const username =
+  document.getElementById("username").value;
 
-  if(loginForm){
-    loginForm.addEventListener("submit",(e)=>{
-      e.preventDefault();
+  const password =
+  document.getElementById("password").value;
 
-      const username =
-        document.getElementById("username").value;
+  if(username === "" || password === ""){
 
-      Storage.set("krishi_user", {
-        username
-      });
+    alert("Please fill all fields");
 
-      window.location.href = "dashboard.html";
-    });
+    return;
   }
 
-});
+  localStorage.setItem("krishi_logged_in","true");
+
+  localStorage.setItem("krishi_user",username);
+
+  window.location.href = "dashboard.html";
+
+}
+
+/* AUTO LOGIN CHECK */
+
+if(window.location.pathname.includes("dashboard")){
+
+  const loggedIn =
+  localStorage.getItem("krishi_logged_in");
+
+  if(!loggedIn){
+
+    window.location.href = "login.html";
+
+  }
+
+}

@@ -1,40 +1,20 @@
-function startListening(){
+function startVoiceAssistant(){
 
-  const output =
-  document.getElementById("voiceOutput");
+  const speech =
+  new SpeechSynthesisUtterance(
 
-  output.innerHTML =
-  "🎤 Listening...";
+    "Welcome to Krishi AI. Smart farming assistant activated."
 
-  const recognition =
-  new(window.SpeechRecognition
-  || window.webkitSpeechRecognition)();
+  );
 
-  recognition.lang = "en-US";
+  speech.lang = "en-US";
 
-  recognition.onresult = function(event){
+  speech.rate = 1;
 
-    const text =
-    event.results[0][0].transcript;
+  speech.pitch = 1;
 
-    output.innerHTML = `
+  speech.volume = 1;
 
-      <h3>You Said:</h3>
-
-      <p>${text}</p>
-
-      <br>
-
-      <h3>AI Response:</h3>
-
-      <p>
-        Smart farming recommendation generated successfully.
-      </p>
-
-    `;
-
-  };
-
-  recognition.start();
+  speechSynthesis.speak(speech);
 
 }

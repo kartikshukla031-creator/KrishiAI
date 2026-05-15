@@ -1,43 +1,81 @@
-// CLOCK
+/* DARK MODE */
 
-setInterval(()=>{
+const themeBtn =
+document.getElementById("themeToggle");
 
-  const now = new Date();
+if(themeBtn){
 
-  document.getElementById("clock")
-  .innerHTML =
-  now.toLocaleTimeString();
+themeBtn.addEventListener("click",()=>{
 
-},1000);
+document.body.classList.toggle("dark-mode");
 
+if(document.body.classList.contains("dark-mode")){
 
+localStorage.setItem("theme","dark");
 
-// DARK MODE
+themeBtn.innerHTML="☀️";
 
-function toggleDarkMode(){
+}
+else{
 
-  document.body.classList.toggle("dark");
+localStorage.setItem("theme","light");
+
+themeBtn.innerHTML="🌙";
 
 }
 
+});
 
+}
 
-// FARMING TIPS
+const savedTheme =
+localStorage.getItem("theme");
+
+if(savedTheme==="dark"){
+
+document.body.classList.add("dark-mode");
+
+if(themeBtn){
+
+themeBtn.innerHTML="☀️";
+
+}
+
+}
+
+/* SMART FARMING TIPS */
 
 const tips = [
 
-  "Use organic fertilizers",
+"Use drip irrigation to save water.",
 
-  "Avoid overwatering",
+"Monitor crop health weekly.",
 
-  "Check soil moisture daily",
+"Use organic compost for better soil quality.",
 
-  "Morning watering is best"
+"Avoid overwatering crops.",
+
+"Early morning watering improves growth.",
+
+"Check leaves regularly for infections."
 
 ];
 
-const randomTip =
-tips[Math.floor(Math.random()*tips.length)];
+const tipsBox =
+document.getElementById("tipsBox");
 
-document.getElementById("tipBox")
-.innerHTML = randomTip;
+if(tipsBox){
+
+setInterval(()=>{
+
+const randomTip =
+
+tips[
+Math.floor(Math.random()*tips.length)
+];
+
+tipsBox.innerHTML = randomTip;
+
+},4000);
+
+}

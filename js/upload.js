@@ -1,107 +1,117 @@
-const analyzeBtn =
-document.getElementById("analyzeBtn");
+async function analyzePlant(){
 
-const imageInput =
-document.getElementById("imageInput");
+  const imageInput =
+  document.getElementById("plantImage");
 
-const aiResult =
-document.getElementById("aiResult");
+  const resultBox =
+  document.getElementById("resultBox");
 
-const loader =
-document.getElementById("loader");
+  if(imageInput.files.length === 0){
 
-const progressFill =
-document.getElementById("progressFill");
+    resultBox.innerHTML =
+    "Please upload image first.";
 
-
-
-// IMAGE PREVIEW
-
-imageInput.addEventListener("change", function(){
-
-  const file = this.files[0];
-
-  const reader = new FileReader();
-
-  reader.onload = function(e){
-
-    document.getElementById("preview").src =
-    e.target.result;
+    return;
 
   }
+
+  resultBox.innerHTML =
+  "Analyzing crop with AI...";
+
+  const file =
+  imageInput.files[0];
+
+  const reader =
+  new FileReader();
 
   reader.readAsDataURL(file);
 
-});
+  reader.onload = async ()=>{
 
+    try{
 
+      const response =
+      await fetch("/api/plant-analysis",{
 
-// ANALYZE
+        method:"POST",
 
-analyzeBtn.addEventListener("click", ()=>{
+        headers:{
+          "Content-Type":"application/json"
+        },
 
-  const file = imageInput.files[0];
+        body:JSON.stringify({
 
-  if(!file){
+          image:reader.result
 
-    aiResult.innerHTML =
-    "Please upload image first";
+        })
 
-    return;
-  }
+      });
 
-  loader.style.display = "block";
+      const data =
+      await response.json();
 
-  let width = 0;
+      if(data.success){
 
-  const interval = setInterval(()=>{
+        resultBox.innerHTML = `
 
-    width += 10;
+          <strong>${data.result}</strong>
 
-    progressFill.style.width =
-    width + "%";
+          <br><br>
 
-    if(width >= 100){
+          ✅ AI analysis completed successfully.
 
-      clearInterval(interval);
-
-      loader.style.display = "none";
-
-      const name =
-      file.name.toLowerCase();
-
-      let result = "";
-
-      if(name.includes("leaf")
-      || name.includes("plant")){
-
-        result = `
-          <h3>Plant Healthy 🌱</h3>
-          <p>No disease detected</p>
-          <p>Growth condition excellent</p>
         `;
-      }
 
-      else if(name.includes("dry")){
+        saveHistory(data.result);
 
-        result = `
-          <h3>Dryness Detected ⚠️</h3>
-          <p>Increase watering</p>
-        `;
       }
 
       else{
 
-        result = `
-          <h3>Analysis Complete ✅</h3>
-          <p>Crop condition stable</p>
-        `;
-      }
+        resultBox.innerHTML =
+        "Analysis failed.";
 
-      aiResult.innerHTML = result;
+      }
 
     }
 
-  },200);
+    catch(error){
 
-});
+      resultBox.innerHTML =
+      "Server error occurred.";
+
+    }
+
+  };
+
+}
+
+/* SAVE HISTORY */
+
+function saveHistory(result){
+
+  let history =
+
+  JSON.parse(
+
+    localStorage.getItem("krishi_history")
+
+  ) || [];
+
+  history.unshift({
+
+    result,
+
+    time:new Date().toLocaleString()
+
+  });
+
+  localStorage.setItem(
+
+    "krishi_history",
+
+    JSON.stringify(history)
+
+  );
+
+}
