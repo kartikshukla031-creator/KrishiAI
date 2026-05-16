@@ -1,81 +1,55 @@
 /* DARK MODE */
 
-const themeBtn =
-document.getElementById("themeToggle");
+const themeBtn = document.getElementById("themeToggle");
 
-if(themeBtn){
+if (themeBtn) {
+  themeBtn.addEventListener("click", () => {
+    document.body.classList.toggle("dark-mode");
 
-themeBtn.addEventListener("click",()=>{
+    if (document.body.classList.contains("dark-mode")) {
+      localStorage.setItem("theme", "dark");
 
-document.body.classList.toggle("dark-mode");
+      themeBtn.innerHTML = "☀️";
+    } else {
+      localStorage.setItem("theme", "light");
 
-if(document.body.classList.contains("dark-mode")){
-
-localStorage.setItem("theme","dark");
-
-themeBtn.innerHTML="☀️";
-
-}
-else{
-
-localStorage.setItem("theme","light");
-
-themeBtn.innerHTML="🌙";
-
+      themeBtn.innerHTML = "🌙";
+    }
+  });
 }
 
-});
+const savedTheme = localStorage.getItem("theme");
 
-}
+if (savedTheme === "dark") {
+  document.body.classList.add("dark-mode");
 
-const savedTheme =
-localStorage.getItem("theme");
-
-if(savedTheme==="dark"){
-
-document.body.classList.add("dark-mode");
-
-if(themeBtn){
-
-themeBtn.innerHTML="☀️";
-
-}
-
+  if (themeBtn) {
+    themeBtn.innerHTML = "☀️";
+  }
 }
 
 /* SMART FARMING TIPS */
 
 const tips = [
+  "Use drip irrigation to save water.",
 
-"Use drip irrigation to save water.",
+  "Monitor crop health weekly.",
 
-"Monitor crop health weekly.",
+  "Use organic compost for better soil quality.",
 
-"Use organic compost for better soil quality.",
+  "Avoid overwatering crops.",
 
-"Avoid overwatering crops.",
+  "Early morning watering improves growth.",
 
-"Early morning watering improves growth.",
-
-"Check leaves regularly for infections."
-
+  "Check leaves regularly for infections.",
 ];
 
-const tipsBox =
-document.getElementById("tipsBox");
+const tipsBox = document.getElementById("tipsBox");
 
-if(tipsBox){
+if (tipsBox) {
+  setInterval(() => {
+    const randomTip = tips[Math.floor(Math.random() * tips.length)];
 
-setInterval(()=>{
-
-const randomTip =
-
-tips[
-Math.floor(Math.random()*tips.length)
-];
-
-tipsBox.innerHTML = randomTip;
-
-},4000);
-
+    tipsBox.innerHTML = randomTip;
+  }, 4000);
 }
