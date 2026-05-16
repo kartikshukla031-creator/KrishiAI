@@ -1,117 +1,84 @@
-async function analyzePlant(){
+async function analyzePlant() {
 
-  const imageInput =
-  document.getElementById("plantImage");
+  const fileInput =
+    document.getElementById("plantImage");
 
   const resultBox =
-  document.getElementById("resultBox");
+    document.getElementById("resultBox");
 
-  if(imageInput.files.length === 0){
+  if (!fileInput.files.length) {
 
     resultBox.innerHTML =
-    "Please upload image first.";
+      "Please upload an image.";
 
     return;
-
   }
 
+  const file = fileInput.files[0];
+
   resultBox.innerHTML =
-  "Analyzing crop with AI...";
+    "Analyzing plant...";
 
-  const file =
-  imageInput.files[0];
+  const reader = new FileReader();
 
-  const reader =
-  new FileReader();
+  reader.onloadend = async () => {
 
-  reader.readAsDataURL(file);
+    try {
 
-  reader.onload = async ()=>{
+      const response = await fetch(
+        "/api/plant-analysis",
+        {
+          method: "POST",
 
-    try{
+          headers: {
+            "Content-Type":
+              "application/json"
+          },
 
-      const response =
-      await fetch("/api/plant-analysis",{
-
-        method:"POST",
-
-        headers:{
-          "Content-Type":"application/json"
-        },
-
-        body:JSON.stringify({
-
-          image:reader.result
-
-        })
-
-      });
+          body: JSON.stringify({
+            image: reader.result
+          })
+        }
+      );
 
       const data =
-      await response.json();
+        await response.json();
 
-      if(data.success){
+      if (data.success) {
 
         resultBox.innerHTML = `
+          <h3>
+            🌱 ${data.plant}
+          </h3>
 
-          <strong>${data.result}</strong>
+          <p>
+            Confidence:
+            ${data.confidence}
+          </p>
 
-          <br><br>
-
-          ✅ AI analysis completed successfully.
-
+          <p>
+            AI plant analysis completed successfully.
+          </p>
         `;
 
-        saveHistory(data.result);
-
-      }
-
-      else{
+      } else {
 
         resultBox.innerHTML =
-        "Analysis failed.";
+          "No plant identified.";
 
       }
 
-    }
-
-    catch(error){
+    } catch (error) {
 
       resultBox.innerHTML =
-      "Server error occurred.";
+        "Analysis failed.";
+
+      console.error(error);
 
     }
 
   };
 
-}
-
-/* SAVE HISTORY */
-
-function saveHistory(result){
-
-  let history =
-
-  JSON.parse(
-
-    localStorage.getItem("krishi_history")
-
-  ) || [];
-
-  history.unshift({
-
-    result,
-
-    time:new Date().toLocaleString()
-
-  });
-
-  localStorage.setItem(
-
-    "krishi_history",
-
-    JSON.stringify(history)
-
-  );
+  reader.readAsDataURL(file);
 
 }
