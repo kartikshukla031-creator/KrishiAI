@@ -14,11 +14,15 @@ export default async function handler(req, res) {
       `https://my-api.plantnet.org/v2/identify/all?api-key=${process.env.PLANTNET_API_KEY}`,
       {
         method: "POST",
+
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type":
+            "application/json"
         },
+
         body: JSON.stringify({
           images: [image],
+          modifiers: ["crops_fast"],
           organs: ["leaf"]
         })
       }
@@ -33,33 +37,35 @@ export default async function handler(req, res) {
       data.results.length > 0
     ) {
 
-      const plant =
+      const top =
         data.results[0];
 
       return res.status(200).json({
         success: true,
 
         plant:
-          plant.species.scientificNameWithoutAuthor,
+          top.species
+          .scientificNameWithoutAuthor,
 
         confidence:
           (
-            plant.score * 100
+            top.score * 100
           ).toFixed(2) + "%"
       });
 
     }
 
     return res.status(200).json({
-      success: false,
-      message: "No plant identified"
+      success: false
     });
 
-  } catch (error) {
+  } catch (err) {
+
+    console.log(err);
 
     return res.status(500).json({
       success: false,
-      error: error.message
+      error: err.message
     });
 
   }
