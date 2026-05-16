@@ -1,0 +1,25 @@
+[
+  {
+    "name":"Tomato",
+    "health":"82%",
+    "disease":"Early Blight"
+  },
+
+  {
+    "name":"Potato",
+    "health":"76%",
+    "disease":"Late Blight"
+  },
+
+  {
+    "name":"Rice",
+    "health":"88%",
+    "disease":"Bacterial Leaf Blight"
+  },
+
+  {
+    "name":"Wheat",
+    "health":"91%",
+    "disease":"Rust Disease"
+  }
+]

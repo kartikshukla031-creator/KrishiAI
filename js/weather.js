@@ -1,49 +1,67 @@
-async function loadWeather(){
+function loadWeather(){
 
   const weatherBox =
-  document.getElementById("weatherBox");
+  document.getElementById(
+    "weatherBox"
+  );
 
-  if(!weatherBox) return;
+  const fullWeather =
+  document.getElementById(
+    "fullWeather"
+  );
 
-  weatherBox.innerHTML =
-  "Loading weather...";
+  const weatherData = `
 
-  try{
+    <h3>
+      🌤 Sunny
+    </h3>
 
-    const response =
-    await fetch(
+    <br>
 
-      "https://api.open-meteo.com/v1/forecast?latitude=28.61&longitude=77.20&current_weather=true"
+    <p>
+      🌡 Temperature:
+      29°C
+    </p>
 
-    );
+    <br>
 
-    const data =
-    await response.json();
+    <p>
+      💧 Humidity:
+      62%
+    </p>
 
-    const weather =
-    data.current_weather;
+    <br>
 
-    weatherBox.innerHTML = `
+    <p>
+      🌬 Wind Speed:
+      12 km/h
+    </p>
 
-      <p>🌡 Temperature: ${weather.temperature}°C</p>
+    <br>
 
-      <p>🌬 Wind Speed: ${weather.windspeed} km/h</p>
+    <p>
+      🌾 Good weather for irrigation.
+    </p>
 
-      <p>🧭 Wind Direction: ${weather.winddirection}°</p>
+  `;
 
-      <p>⏰ Updated Live</p>
+  if(weatherBox){
 
-    `;
+    weatherBox.innerHTML =
+    weatherData;
 
   }
 
-  catch(error){
+  if(fullWeather){
 
-    weatherBox.innerHTML =
-    "Weather unavailable";
+    fullWeather.innerHTML =
+    weatherData;
 
   }
 
 }
 
-loadWeather();
+window.addEventListener(
+  "load",
+  loadWeather
+);

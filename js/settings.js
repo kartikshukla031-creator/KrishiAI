@@ -1,7 +1,34 @@
-function clearHistory(){
+function clearAllHistory(){
 
-  localStorage.removeItem("krishi_history");
+  localStorage.removeItem(
+    "krishi_history"
+  );
 
-  alert("History Cleared");
+  loadHistory();
+
+  alert(
+    "History Cleared"
+  );
 
 }
+
+const toggles =
+
+document.querySelectorAll(
+  ".toggle-switch"
+);
+
+toggles.forEach((toggle)=>{
+
+  toggle.addEventListener(
+    "click",
+    ()=>{
+
+      toggle.classList.toggle(
+        "active"
+      );
+
+    }
+  );
+
+});

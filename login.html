@@ -1,51 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
   <meta charset="UTF-8">
 
-  <meta name="viewport"
-  content="width=device-width, initial-scale=1.0">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-  <title>KrishiAI Login</title>
+  <title>
+    KrishiAI Login
+  </title>
 
-  <link rel="stylesheet" href="css/style.css">
+  <link
+    rel="stylesheet"
+    href="css/style.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="css/dark.css"
+  >
 
 </head>
 
 <body class="login-body">
 
-<div class="login-container">
+  <div class="login-container">
 
-  <div class="login-card">
+    <div class="login-card">
 
-    <h1>🌱 KrishiAI</h1>
+      <div class="login-logo">
 
-    <p>
-      Smart Agriculture Intelligence Platform
-    </p>
+        🌱
 
-    <input
-      type="text"
-      id="username"
-      placeholder="Enter Username"
-    >
+      </div>
 
-    <input
-      type="password"
-      id="password"
-      placeholder="Enter Password"
-    >
+      <h1 class="login-title">
 
-    <button onclick="loginUser()">
-      Login
-    </button>
+        KrishiAI
+
+      </h1>
+
+      <div class="input-group">
+
+        <label>
+
+          Username
+
+        </label>
+
+        <input
+          type="text"
+          id="username"
+          placeholder="Enter username"
+        >
+
+      </div>
+
+      <div class="input-group">
+
+        <label>
+
+          Password
+
+        </label>
+
+        <input
+          type="password"
+          id="password"
+          placeholder="Enter password"
+        >
+
+      </div>
+
+      <div
+        style="
+        display:flex;
+        align-items:center;
+        gap:10px;
+        margin-bottom:20px;
+      "
+      >
+
+        <input
+          type="checkbox"
+          id="rememberMe"
+        >
+
+        <label for="rememberMe">
+
+          Remember Me
+
+        </label>
+
+      </div>
+
+      <button
+        class="login-btn"
+        onclick="loginUser()"
+      >
+
+        Login
+
+      </button>
+
+      <br><br>
+
+      <p
+        style="
+        text-align:center;
+        color:#6b7280;
+      "
+      >
+
+        Smart Agriculture Intelligence Platform
+
+      </p>
+
+    </div>
 
   </div>
 
-</div>
-
-<script src="js/auth.js"></script>
+  <script src="js/auth.js"></script>
 
 </body>
+
 </html>

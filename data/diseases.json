@@ -1,0 +1,25 @@
+[
+  {
+    "crop":"Tomato",
+    "disease":"Early Blight",
+    "treatment":"Use copper fungicide"
+  },
+
+  {
+    "crop":"Potato",
+    "disease":"Late Blight",
+    "treatment":"Avoid overwatering"
+  },
+
+  {
+    "crop":"Rice",
+    "disease":"Leaf Blight",
+    "treatment":"Use resistant seeds"
+  },
+
+  {
+    "crop":"Wheat",
+    "disease":"Rust Disease",
+    "treatment":"Apply sulfur spray"
+  }
+]

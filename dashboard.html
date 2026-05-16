@@ -1,208 +1,240 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
   <meta charset="UTF-8">
 
-  <meta name="viewport"
-  content="width=device-width, initial-scale=1.0">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-  <title>KrishiAI Dashboard</title>
+  <title>
+    KrishiAI Dashboard
+  </title>
 
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/dark.css">
+  <link
+    rel="stylesheet"
+    href="css/style.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="css/dark.css"
+  >
 
 </head>
 
 <body class="dashboard-body">
 
-<!-- SIDEBAR -->
+  <div class="sidebar">
 
-<div class="sidebar">
+    <div class="sidebar-logo">
+      🌱 KrishiAI
+    </div>
 
-  <div class="sidebar-logo">
-    🌱 KrishiAI
-  </div>
+    <ul>
 
-  <ul>
+      <li onclick="showSection('dashboardSection')">
+        Dashboard
+      </li>
 
-    <li>Dashboard</li>
+      <li onclick="showSection('diseaseSection')">
+        Disease Detection
+      </li>
 
-    <li>Disease Detection</li>
+      <li onclick="showSection('weatherSection')">
+        Weather
+      </li>
 
-    <li>Weather</li>
+      <li onclick="showSection('voiceSection')">
+        Voice Assistant
+      </li>
 
-    <li>Voice Assistant</li>
+      <li onclick="showSection('historySection')">
+        History
+      </li>
 
-    <li>History</li>
+      <li onclick="showSection('settingsSection')">
+        Settings
+      </li>
 
-    <li>Settings</li>
+      <li onclick="logoutUser()">
+        Logout
+      </li>
 
-  </ul>
-
-</div>
-
-<!-- MAIN -->
-
-<div class="main-content">
-
-  <!-- TOPBAR -->
-
-  <div class="topbar">
-
-    <h1>
-      Smart Farming Dashboard
-    </h1>
-
-    <button id="themeToggle">
-      🌙
-    </button>
+    </ul>
 
   </div>
 
-  <!-- GRID -->
+  <div class="main-content">
 
-  <div class="dashboard-grid">
+    <div class="topbar">
 
-    <!-- UPLOAD -->
+      <h1>
+        Smart Farming Dashboard
+      </h1>
 
-    <div class="card upload-card">
-
-      <h2>
-        Upload Plant Image
-      </h2>
-
-      <input
-        type="file"
-        id="plantImage"
-        accept="image/*"
-      >
-
-      <button onclick="analyzePlant()">
-
-        Analyze Crop
-
+      <button id="themeToggle">
+        🌙
       </button>
 
     </div>
 
-    <!-- AI RESULT -->
+    <div id="dashboardSection">
 
-    <div class="card">
+      <div class="dashboard-grid">
 
-      <h2>AI Diagnosis</h2>
+        <div class="card upload-card">
 
-      <div id="resultBox">
+          <h2>
+            Upload Plant Image
+          </h2>
 
-        Waiting for analysis...
+          <input
+            type="file"
+            id="plantImage"
+            accept="image/*"
+          >
 
-      </div>
+          <button onclick="analyzePlant()">
+            Analyze Crop
+          </button>
 
-    </div>
+        </div>
 
-    <!-- WEATHER -->
+        <div class="card">
 
-    <div class="card">
+          <h2>
+            AI Diagnosis
+          </h2>
 
-      <h2>Weather Insights</h2>
+          <div id="resultBox">
 
-      <div id="weatherBox"></div>
-
-    </div>
-
-    <!-- VOICE -->
-
-    <div class="card">
-
-      <h2>Voice Assistant</h2>
-
-      <button
-      class="voice-btn"
-      onclick="startVoiceAssistant()">
-
-        🎤 Start Listening
-
-      </button>
-
-    </div>
-
-    <!-- CROP HEALTH -->
-
-    <div class="card">
-
-      <h2>Crop Health</h2>
-
-      <div class="progress-bar">
-
-        <div class="progress-fill"></div>
-
-      </div>
-
-      <p>
-        Overall Crop Health: 82%
-      </p>
-
-    </div>
-
-    <!-- RECENT ACTIVITY -->
-
-    <div class="card">
-
-      <h2>Recent Activity</h2>
-
-      <ul class="activity-list">
-
-        <li>✔ AI Monitoring Enabled</li>
-
-        <li>✔ Weather Updated</li>
-
-        <li>✔ Smart Farming Active</li>
-
-      </ul>
-
-    </div>
-
-    <!-- ANALYTICS -->
-
-    <div class="card">
-
-      <h2>Smart Analytics</h2>
-
-      <div class="analytics-box">
-
-        <div class="analytics-item">
-
-          <h3>Crop Growth</h3>
-
-          <div class="mini-progress">
-
-            <div class="mini-fill growth-fill"></div>
+            Waiting for crop analysis...
 
           </div>
 
         </div>
 
-        <div class="analytics-item">
+        <div class="card">
 
-          <h3>Water Level</h3>
+          <h2>
+            Weather Insights
+          </h2>
 
-          <div class="mini-progress">
-
-            <div class="mini-fill water-fill"></div>
+          <div id="weatherBox">
 
           </div>
 
         </div>
 
-        <div class="analytics-item">
+        <div class="card">
 
-          <h3>Soil Quality</h3>
+          <h2>
+            Voice Assistant
+          </h2>
 
-          <div class="mini-progress">
+          <button
+            class="voice-btn"
+            onclick="startVoiceAssistant()"
+          >
 
-            <div class="mini-fill soil-fill"></div>
+            🎤 Start Listening
+
+          </button>
+
+        </div>
+
+        <div class="card">
+
+          <h2>
+            Crop Health
+          </h2>
+
+          <div class="progress-bar">
+
+            <div class="progress-fill"></div>
 
           </div>
+
+          <p>
+            Overall Crop Health: 82%
+          </p>
+
+        </div>
+
+        <div class="card">
+
+          <h2>
+            Recent Activity
+          </h2>
+
+          <ul class="activity-list">
+
+            <li>
+              ✔ AI Monitoring Enabled
+            </li>
+
+            <li>
+              ✔ Weather Updated
+            </li>
+
+            <li>
+              ✔ Disease Analysis Ready
+            </li>
+
+            <li>
+              ✔ Smart Farming Active
+            </li>
+
+          </ul>
+
+        </div>
+
+        <div class="card">
+
+          <h2>
+            Smart Analytics
+          </h2>
+
+          <p>
+            Crop Growth:
+            76%
+          </p>
+
+          <br>
+
+          <p>
+            Soil Moisture:
+            61%
+          </p>
+
+          <br>
+
+          <p>
+            Fertility Score:
+            88%
+          </p>
+
+        </div>
+
+        <div class="card">
+
+          <h2>
+            Smart Farming Tips
+          </h2>
+
+          <p>
+            Avoid overwatering crops during humid conditions.
+          </p>
+
+          <br>
+
+          <p>
+            Use organic fertilizers for healthier production.
+          </p>
 
         </div>
 
@@ -210,51 +242,196 @@
 
     </div>
 
-    <!-- FARMING TIPS -->
+    <div
+      id="historySection"
+      style="display:none;"
+    >
 
-    <div class="card">
+      <div class="card">
 
-      <h2>Smart Farming Tips</h2>
+        <h2>
+          Crop Analysis History
+        </h2>
 
-      <div id="tipsBox">
+        <div id="historyContainer">
 
-        Use organic fertilizers for better yield.
+          No history available.
+
+        </div>
 
       </div>
 
     </div>
 
-    <!-- SYSTEM STATUS -->
+    <div
+      id="settingsSection"
+      style="display:none;"
+    >
 
-    <div class="card">
+      <div class="settings-grid">
 
-      <h2>System Status</h2>
+        <div class="setting-item">
 
-      <div class="status-grid">
+          <h3>
+            Dark Mode
+          </h3>
 
-        <div class="status-item">
+          <br>
 
-          <span class="status-dot green"></span>
-
-          AI Monitoring Active
-
-        </div>
-
-        <div class="status-item">
-
-          <span class="status-dot blue"></span>
-
-          Weather Tracking Enabled
+          <div
+            class="toggle-switch"
+            id="darkToggle"
+          ></div>
 
         </div>
 
-        <div class="status-item">
 
-          <span class="status-dot orange"></span>
+        <div class="setting-item">
 
-          Smart Alerts Running
+          <h3>
+            Voice Assistant
+          </h3>
+
+          <br>
+
+          <div
+            class="toggle-switch active"
+          ></div>
 
         </div>
+
+        <div class="setting-item">
+
+          <h3>
+            Live Weather
+          </h3>
+
+          <br>
+
+          <div
+            class="toggle-switch active"
+          ></div>
+
+        </div>
+
+        <div class="setting-item">
+
+          <h3>
+            Notifications
+          </h3>
+
+          <br>
+
+          <div
+            class="toggle-switch active"
+          ></div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div
+      id="weatherSection"
+      style="display:none;"
+    >
+
+      <div class="card">
+
+        <h2>
+          Live Weather Report
+        </h2>
+
+        <div id="fullWeather">
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div
+      id="voiceSection"
+      style="display:none;"
+    >
+
+      <div class="card">
+
+        <h2>
+          Voice Commands
+        </h2>
+
+        <br>
+
+        <p>
+          Try saying:
+        </p>
+
+        <br>
+
+        <ul class="activity-list">
+
+          <li>
+            open weather
+          </li>
+
+          <li>
+            open settings
+          </li>
+
+          <li>
+            dark mode
+          </li>
+
+          <li>
+            crop health
+          </li>
+
+          <li>
+            show history
+          </li>
+
+        </ul>
+
+      </div>
+
+    </div>
+
+    <div
+      id="diseaseSection"
+      style="display:none;"
+    >
+
+      <div class="card">
+
+        <h2>
+          Disease Information
+        </h2>
+
+        <br>
+
+        <p>
+          Tomato → Early Blight
+        </p>
+
+        <br>
+
+        <p>
+          Potato → Late Blight
+        </p>
+
+        <br>
+
+        <p>
+          Wheat → Rust Disease
+        </p>
+
+        <br>
+
+        <p>
+          Rice → Bacterial Leaf Blight
+        </p>
 
       </div>
 
@@ -262,18 +439,22 @@
 
   </div>
 
-</div>
+  <script src="js/auth.js"></script>
 
-<!-- SCRIPTS -->
+  <script src="js/ui.js"></script>
 
-<script src="js/upload.js"></script>
-<script src="js/weather.js"></script>
-<script src="js/voice.js"></script>
-<script src="js/auth.js"></script>
-<script src="js/ui.js"></script>
-<script src="js/history.js"></script>
-<script src="js/charts.js"></script>
-<script src="js/settings.js"></script>
+  <script src="js/upload.js"></script>
+
+  <script src="js/weather.js"></script>
+
+  <script src="js/voice.js"></script>
+
+  <script src="js/history.js"></script>
+
+  <script src="js/charts.js"></script>
+
+  <script src="js/settings.js"></script>
 
 </body>
+
 </html>

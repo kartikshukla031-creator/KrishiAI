@@ -1,55 +1,163 @@
-/* DARK MODE */
+const themeToggle =
+document.getElementById("themeToggle");
 
-const themeBtn = document.getElementById("themeToggle");
+const darkToggle =
+document.getElementById("darkToggle");
 
-if (themeBtn) {
-  themeBtn.addEventListener("click", () => {
-    document.body.classList.toggle("dark-mode");
+function enableDarkMode(){
 
-    if (document.body.classList.contains("dark-mode")) {
-      localStorage.setItem("theme", "dark");
+  document.body.classList.add(
+    "dark-mode"
+  );
 
-      themeBtn.innerHTML = "☀️";
-    } else {
-      localStorage.setItem("theme", "light");
+  localStorage.setItem(
+    "krishi_theme",
+    "dark"
+  );
 
-      themeBtn.innerHTML = "🌙";
-    }
-  });
-}
+  if(darkToggle){
 
-const savedTheme = localStorage.getItem("theme");
+    darkToggle.classList.add(
+      "active"
+    );
 
-if (savedTheme === "dark") {
-  document.body.classList.add("dark-mode");
-
-  if (themeBtn) {
-    themeBtn.innerHTML = "☀️";
   }
+
 }
 
-/* SMART FARMING TIPS */
+function disableDarkMode(){
 
-const tips = [
-  "Use drip irrigation to save water.",
+  document.body.classList.remove(
+    "dark-mode"
+  );
 
-  "Monitor crop health weekly.",
+  localStorage.setItem(
+    "krishi_theme",
+    "light"
+  );
 
-  "Use organic compost for better soil quality.",
+  if(darkToggle){
 
-  "Avoid overwatering crops.",
+    darkToggle.classList.remove(
+      "active"
+    );
 
-  "Early morning watering improves growth.",
+  }
 
-  "Check leaves regularly for infections.",
-];
+}
 
-const tipsBox = document.getElementById("tipsBox");
+window.addEventListener("load",()=>{
 
-if (tipsBox) {
-  setInterval(() => {
-    const randomTip = tips[Math.floor(Math.random() * tips.length)];
+  const savedTheme =
+  localStorage.getItem(
+    "krishi_theme"
+  );
 
-    tipsBox.innerHTML = randomTip;
-  }, 4000);
+  if(savedTheme === "dark"){
+
+    enableDarkMode();
+
+  }
+
+});
+
+
+if(themeToggle){
+
+  themeToggle.addEventListener(
+    "click",
+    ()=>{
+
+      if(
+        document.body.classList.contains(
+          "dark-mode"
+        )
+      ){
+
+        disableDarkMode();
+
+      }
+      else{
+
+        enableDarkMode();
+
+      }
+
+    }
+  );
+
+}
+
+if(darkToggle){
+
+  darkToggle.addEventListener(
+    "click",
+    ()=>{
+
+      darkToggle.classList.toggle(
+        "active"
+      );
+
+      if(
+        document.body.classList.contains(
+          "dark-mode"
+        )
+      ){
+
+        disableDarkMode();
+
+      }
+      else{
+
+        enableDarkMode();
+
+      }
+
+    }
+  );
+
+}
+
+function showSection(sectionId){
+
+  const sections = [
+
+    "dashboardSection",
+
+    "historySection",
+
+    "settingsSection",
+
+    "weatherSection",
+
+    "voiceSection",
+
+    "diseaseSection"
+
+  ];
+
+  sections.forEach((id)=>{
+
+    const section =
+    document.getElementById(id);
+
+    if(section){
+
+      section.style.display =
+      "none";
+
+    }
+
+  });
+
+  const activeSection =
+  document.getElementById(sectionId);
+
+  if(activeSection){
+
+    activeSection.style.display =
+    "block";
+
+  }
+
 }

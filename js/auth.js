@@ -6,32 +6,80 @@ function loginUser(){
   const password =
   document.getElementById("password").value;
 
+  const remember =
+  document.getElementById("rememberMe");
+
   if(username === "" || password === ""){
 
     alert("Please fill all fields");
 
     return;
+
   }
 
-  localStorage.setItem("krishi_logged_in","true");
+  localStorage.setItem(
+    "krishi_username",
+    username
+  );
 
-  localStorage.setItem("krishi_user",username);
+  sessionStorage.setItem(
+    "krishi_logged_in",
+    "true"
+  );
 
-  window.location.href = "dashboard.html";
+  if(remember.checked){
+
+    localStorage.setItem(
+      "remember_user",
+      "true"
+    );
+
+  }
+  else{
+
+    localStorage.removeItem(
+      "remember_user"
+    );
+
+  }
+
+  window.location.href =
+  "dashboard.html";
 
 }
 
-/* AUTO LOGIN CHECK */
+window.addEventListener("load",()=>{
 
-if(window.location.pathname.includes("dashboard")){
+  if(
+    window.location.pathname.includes(
+      "dashboard.html"
+    )
+  ){
 
-  const loggedIn =
-  localStorage.getItem("krishi_logged_in");
+    const loggedIn =
+    sessionStorage.getItem(
+      "krishi_logged_in"
+    );
 
-  if(!loggedIn){
+    if(loggedIn !== "true"){
 
-    window.location.href = "login.html";
+      window.location.href =
+      "login.html";
+
+    }
 
   }
+
+});
+
+
+function logoutUser(){
+
+  sessionStorage.removeItem(
+    "krishi_logged_in"
+  );
+
+  window.location.href =
+  "login.html";
 
 }
